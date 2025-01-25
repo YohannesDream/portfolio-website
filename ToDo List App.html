@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>ToDo List App</title>
+   <script src="https://kit.fontawesome.com/1b0f626b4e.js" crossorigin="anonymous"></script>
+   <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@600&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inconsolata', monospace;
+    
+} 
+.container {
+    margin: 50px auto;
+    border-radius: 25px;
+    background: #DAD9D4;
+    padding: 2rem 1em;
+    width: 350px;
+    box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items:  center;
+}
+.title {
+    margin-bottom: 12px;
+}
+.title i{
+    margin-left: 22px;
+}
+.input-field input {
+    width: 250px;
+    border: none;
+    border-radius: 12px;
+    outline: none;  
+    padding: 8px 8px;
+        
+}
+ 
+.list-items {
+    width: 320px;
+    margin-top: 18px;
+    font-size: 20px;
+    color: #00C40D;
+    padding: 5px 10px;
+    border-top: 2px solid;
+     
+}
+.input-field button {
+    padding: 5px 8px;
+    background: #00C40D;
+    border-radius: 12px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+} 
+ul li {
+    position: relative;
+    padding-left: 20px;
+    margin-top: 8px;
+    cursor: pointer;
+}
+
+ul li::before {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    top: 3px;
+    left: 0;
+    background: url('images/unchecked.png');
+    background-size: cover;
+    background-position: center;
+}
+
+ul li.checked {color: #999;}
+
+ul li.checked::before {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    top: 3px;
+    left: 0;
+    background: url('images/checked.png');
+    background-size: cover;
+    background-position: center;
+}
+
+span {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    right: 0;
+    top: 2px;
+    color: black;
+    cursor: pointer;
+    border-radius: 12px;
+    text-align: center;    
+}
+
+span:hover {
+    color: white;
+    background:#00C40D;
+}
+
+.list-style {
+    list-style-type: none;
+}
+   </style>
+</head>
+<body>
+  <div class="container">
+      <div class="title">
+         <h2>My Tasks<i class="fa-solid fa-list-check"></i></h2>
+      </div>
+      <div class="input-field">
+         <input type="text" placeholder="Add task here..." id="input-field">
+         <button id="add-btn" onclick="addList()">Add Task</button>
+      </div>
+      <div class="list-items">
+         <ul id="list-container">
+
+         </ul>
+      </div>
+  </div>
+  <script>
+      let listContainer = document.getElementById("list-container");
+      let inputField = document.getElementById("input-field");
+
+
+     function addList(){
+      if(inputField.value === ''){
+         alert("No Task!");
+      }
+      else {
+         let newTask = document.createElement("li");
+         listContainer.appendChild(newTask);
+         newTask.classList.add("list-style");
+         newTask.innerHTML = inputField.value;
+
+         let span = document.createElement("span");
+         newTask.appendChild(span);
+         span.innerHTML = '\u00d7';
+      }
+         inputField.value = "";
+   }
+ 
+      listContainer.addEventListener("click", function(e){
+          if(e.target.tagName === "LI"){
+            e.target.classList.toggle("checked");
+          }
+          else if(e.target.tagName === "SPAN"){
+            e.target.parentElement.remove();
+          } 
+          
+       }, false);
+       
+       function saveData(){
+         localStorage.setItem("data", listContainer.innerHTML);
+       }
+       function showData(){
+         listContainer.innerHTML = localStorage.getItem("data");
+       }
+       showData();
+        
+  </script>
+</body>
+</html> 
